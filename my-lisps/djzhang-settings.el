@@ -7,8 +7,6 @@
 ;;emacs写好cs文件后，需要编译，如果没有配好环境变量，直接用M-x compile是不行的。修改系统的环境变量是一个解决方法。或者在emacs中设置环境变量。设置如下：
 
 
-;;(setenv "PATH" "c:/Python27/")
-
 ;(setenv "Path" (concat "C:\\Program Files\\Microsoft.NET\\SDK\\v2.0\\Bin;C:\\WINDOWS\\Microsoft.NET\\Framework\\v2.0.50727;C:\\Program Files\\Microsoft Visual Studio 8\\VC\\bin;C:\\Program Files\\Microsoft Visual Studio 8\\Common7\\IDE;C:\\Program Files\\Microsoft Visual Studio 8\\VC\\vcpackages;" (getenv "LIB")))
 
 (setenv "LIB" (concat "C:\\Program Files\\Microsoft Visual Studio 8\\VC\\lib;C:\\Program Files\\Microsoft.NET\\SDK\\v2.0\\Lib;" (getenv "LIB")))
@@ -34,42 +32,14 @@
 
 ;;条款2：不用Alt来调用M-x
 ;;将下面的lisp表达式加到你的.emacs文件中，就可以启用Ctrl-x Ctrl-m了：
-(global-set-key "\C-c\C-n" 'execute-extended-command)
+(global-set-key (kbd "C-c C-n") 'execute-extended-command)
 
+;;设置不重启更新.emacs配置
+(global-set-key (kbd "C-c b") 'eval-buffer)
 
-;; (defun python-shell()
-  ;; "make a python shell"
-  ;; (interactive)
-  ;; (switch-to-buffer (make-comint "python" "python" nil "-i")))
-
-
-;; (defun run-current-file ()
-;; (interactive)
-;; (let (ext-map file-name file-ext prog-name cmd-str)
-;; (setq ext-map
-;;          '(
-;;             ("py" . "python.exe")
-;;             ("sh" . "bash")
-;;             )
-;;           );定义命令－文件类型映身表.
-;;     (setq file-name (buffer-file-name));得到当前的buffer名
-;;     (setq file-ext (file-name-extension file-name));得到后缀
-;;     (setq prog-name (cdr (assoc file-ext ext-map)));根据后缀得到执行的命令，通过对ext-map的查找
-;;     (setq cmd-str (concat prog-name " " file-name));拼出一个命令
-;;     (shell-command cmd-str)));执行
-
-
-
- (defun python-compile ()
-   "Use compile to run python programs"
-   (interactive)
-   (save-buffer)
-   (compile (concat "C:/Python27/python.exe " (buffer-name))))
- (setq compilation-scroll-output t)
- (global-set-key "\C-c\C-b" 'python-compile)
 
 ;; 变化后，更新文件
- (global-set-key "\C-c\C-u" 'revert-buffer-no-confirm)
+;; (global-set-key "\C-c\C-u" 'revert-buffer-no-confirm)
 
 ;; espresso for jquery
 ;; http://www.nongnu.org/espresso/
