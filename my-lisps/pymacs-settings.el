@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-22 10:31:16 Saturday by djzhang>
+;; Time-stamp: <2012-09-22 12:31:33 Saturday by djzhang>
 
 
 ;; (require 'python-mode)
@@ -64,6 +64,8 @@
 ;; 光标放到datetime上，按F1，将出现这个类的help信息
 
 ;; 其他一些快捷键用法可以具体参考pycomplete.el文件
+
+
 
 
 (message "  ")
