@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/ecb-settings.el
-;; Time-stamp: <2010-04-10 15:59:33 Saturday by ahei>
+;; Time-stamp: <2012-09-21 21:04:15 Friday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -32,5 +32,7 @@
 
 (eval-after-load "ecb"
   `(ecb-settings))
+
+
 
 (provide 'ecb-settings)

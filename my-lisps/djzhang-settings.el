@@ -35,7 +35,7 @@
 (global-set-key (kbd "C-c C-n") 'execute-extended-command)
 
 ;;设置不重启更新.emacs配置
-(global-set-key (kbd "C-c b") 'eval-buffer)
+(global-set-key (kbd "C-c C-b") 'eval-buffer)
 
 
 ;; 变化后，更新文件
@@ -50,8 +50,7 @@
 
 ;; 改变emacs启动窗口大小的两种方法
 (setq default-frame-alist 
-'(
-  (left . 142)
+'((left . 122)
   (top . 22)
   (height . 25)
   (width . 100)
