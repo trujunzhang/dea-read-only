@@ -3,7 +3,7 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-23 14:42:36 Sunday by djzhang>
+# Time-stamp: <2012-09-23 15:39:27 Sunday by djzhang>
 
 # @version 1.0
 # @author ahei
@@ -17,53 +17,69 @@ from find_file_by_pattern import find_file_by_pattern
 def logmsg(msg):
     print msg
 
+def logmsgbyinfo(info,msg):
+    print (str.format("{0}: {1}",info,msg))
+    
+
 ## sys.argv
 ## 1 : local path
 ## 2 : event type
 def nant_helper():
-
+    print "................................................."
+    print "                 nant build   "       
+    print "................................................."
+    
     e_type = ""
-    e_pattern = "default"
-    e_base = "z:"
+    e_pattern = ""
+    e_base = ""
     e_para=""
-
-    #logmsg (len(sys.argv))
+    logmsgbyinfo("argv's leng",len(sys.argv))
+    e_s=1
+    for arg in sys.argv:
+        logmsgbyinfo(e_s,arg)
+        e_s=e_s+1
+    print "................................................."    
     ## 获得参数
     if len(sys.argv) > 1:
-        logmsg ("split string <<<<")
         e_para=sys.argv[1]
-        logmsg( e_para)
         strlist=e_para.split(";")
-        #logmsg strlist
-        logmsg (len(strlist))
+        logmsgbyinfo("strlist's leng",len(strlist))
+        e_s=1
         for value in strlist:	# 循环输出列表值
-            logmsg (value)
-        logmsg ("split string  >>>")
+            logmsgbyinfo(e_s,value)
+            e_s=e_s+1
+        print "................................................."    
         if len(strlist) ==2:
             e_base = strlist[0]
             e_type = strlist[1]
-            logmsg (e_base)
-            logmsg (e_type)
 
     ## find special file by argv
     try:
         files = find_file_by_pattern(e_pattern, e_base)
         if files.count > 0:
             nant_event(files[0],e_type)
-
+        #s1=sys.argv[5]
     except :
+        print "................................................."
+        print "................................................."
         print (str.format("exception:not found build file, [{0}]",e_para))
+        print "................................................."    
+        print "................................................."
+        
+        
 
 
 
 
 def nant_event(e_buildfile,e_type):
-    logmsg ("nant event<<<")
-    logmsg (e_buildfile)
-    logmsg (e_type)
-    logmsg ("nant event>>>")
+    logmsgbyinfo ("e_buildfile",e_buildfile)
+    logmsgbyinfo ("e_type",e_type)
+    print "................................................."    
+    
     nant_shell=str.format("nant -buildfile:\"{0}\" {1}",e_buildfile,e_type)
-    logmsg (nant_shell)
+    logmsgbyinfo ("nant_shell",nant_shell)
+    print "................................................."    
+    
     os.system(nant_shell)
 
 

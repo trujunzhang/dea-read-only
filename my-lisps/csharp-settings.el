@@ -108,11 +108,12 @@
     (setq nant-help-py-path (format "%s%s"  my-emacs-lisps-path "smart-compile/csharp/nant_helper.py"))
     (setq nant-help-paras (format "\"%s;%s\"" default-directory type))
     ;; python's para like this: ["path;type"]{"c:\xxx_fold;clean"}
-    (setq nant-by-python (format "python %s $s" nant-help-py-path nant-help-paras))
-    (shell-command nant-by-python)
+    (setq nant-by-python (format "python \"%s\" %s" nant-help-py-path nant-help-paras))
+     (shell-command nant-by-python)
     ;; (message nant-by-python)
     ;; (message nant-help-paras)
     ;; (message my-emacs-lisps-path)
+    ;; (ido-switch-buffer "djzhang-settings.el")
 
   )
 
@@ -120,7 +121,7 @@
 (defun smart-nant-build ()
   "doc."
   (interactive)
-  (smart-nant   "wanghao build")
+  (smart-nant   "build")
   )
 
 

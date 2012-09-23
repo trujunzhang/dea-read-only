@@ -63,6 +63,8 @@
 
  (global-set-key [(f5)] 'yas/insert-snippet)
 
+;; (global-set-key [(f7)] 'shell-)
+
 
 
 
