@@ -99,92 +99,33 @@
        (append '(("\\.build$" . xml-mode)) auto-mode-alist))
 
 ;;;###autoload
-(defun smart-nant ()
+ (defun smart-nant (type)
   "doc."
   (interactive)
     (let* ((file (buffer-file-name)) base-name default-command (input "")))
     ;; (message default-directory)
     ;; d:\TC_UP\PLUGINS\SoftwareFiles\gnuemacs\dea-read-only\lisps\
-    (setq nant-help-path (format "%s%s"  my-emacs-lisps-path "smart-compile/csharp/nant_helper.py"))
-    (setq nant-help-paras (format "\"%s;%s\"" default-directory "build"))
-    (setq nant-by-python (format "python %s %s" nant-help-path nant-help-paras))
-     (shell-command nant-by-python)
+    (setq nant-help-py-path (format "%s%s"  my-emacs-lisps-path "smart-compile/csharp/nant_helper.py"))
+    (setq nant-help-paras (format "\"%s;%s\"" default-directory type))
+    ;; python's para like this: ["path;type"]{"c:\xxx_fold;clean"}
+    (setq nant-by-python (format "python %s $s" nant-help-py-path nant-help-paras))
+    (shell-command nant-by-python)
     ;; (message nant-by-python)
     ;; (message nant-help-paras)
     ;; (message my-emacs-lisps-path)
 
   )
 
-
-
-(defun smart-nant111 (command)
-  "以命令COMMAND运行当前源程序对应的程序"
-  (interactive
-   (let* ((file (buffer-file-name)) base-name default-command (input ""))
-     (if (not file)
-         (error "此buffer不与任何文件关联")
-       (setq base-name (file-name-nondirectory file))
-       (setq default-command 
-             (let ((extension (file-name-extension file)))
-               (if (not extension)
-                   (setq extension ""))
-               (cond
-                ((or (equal extension "cpp") (equal (downcase extension) "c"))
-                 (format "./%s" (file-name-sans-extension base-name)))
-                ((equal extension "py")
-                 (format "python %s" base-name))
-                ((equal extension "java")
-                 (format "java %s" (file-name-sans-extension base-name)))
-                ((or (equal extension "sh") (equal major-mode 'sh-mode))
-                 (format "sh %s" base-name))
-                );;end cond
-               );;end let
-             );;end default-command
-       (setq input "wanghao")
-        (list input)
-       );; end if
-     );; end let*
-   )
+;;;###autoload
+(defun smart-nant-build ()
+  "doc."
+  (interactive)
+  (smart-nant   "wanghao build")
   )
 
 
-;;;###autoload
-(defun smart-nant123 (command)
-  "以命令COMMAND运行当前源程序对应的程序"
-  (interactive
-   (let* ((file (buffer-file-name)) base-name default-command (input ""))
-     (if (not file)
-         (error "此buffer不与任何文件关联")
-       (setq base-name (file-name-nondirectory file))
-       (setq default-command 
-             (let ((extension (file-name-extension file)))
-               (if (not extension)
-                   (setq extension ""))
-               (cond
-                ((or (equal extension "cpp") (equal (downcase extension) "c"))
-                 (format "./%s" (file-name-sans-extension base-name)))
-                ((equal extension "py")
-                 (format "python %s" base-name))
-                ((equal extension "java")
-                 (format "java %s" (file-name-sans-extension base-name)))
-                ((or (equal extension "sh") (equal major-mode 'sh-mode))
-                 (format "sh %s" base-name))
-                );;end cond
-               );;end let
-             );;end default-command
-       (while (string= input "")
-         (setq input (read-from-minibuffer "Command to run: " default-command nil nil 'shell-command-history default-command)));;end while
-       (list input)
-       );; end if
-     );; end let*
-   )
-  (let ((buffer "*Shell Command Output*"))
-    (shell-command command buffer)
-    (sleep-for 1)
-    (end-of-buffer-other-window buffer)))
 
-
- (global-set-key [(f12)] 'smart-nant)
+(global-set-key [(f12)] 'smart-nant-build)
 
 
 (message "csharp-settings.el.....................")

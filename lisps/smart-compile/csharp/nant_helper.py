@@ -3,7 +3,7 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-23 12:57:50 Sunday by djzhang>
+# Time-stamp: <2012-09-23 14:42:36 Sunday by djzhang>
 
 # @version 1.0
 # @author ahei
@@ -21,9 +21,12 @@ def logmsg(msg):
 ## 1 : local path
 ## 2 : event type
 def nant_helper():
+
     e_type = ""
     e_pattern = "default"
     e_base = "z:"
+    e_para=""
+
     #logmsg (len(sys.argv))
     ## 获得参数
     if len(sys.argv) > 1:
@@ -47,8 +50,11 @@ def nant_helper():
         files = find_file_by_pattern(e_pattern, e_base)
         if files.count > 0:
             nant_event(files[0],e_type)
+
     except :
-        print ("exception")
+        print (str.format("exception:not found build file, [{0}]",e_para))
+
+
 
 
 def nant_event(e_buildfile,e_type):
