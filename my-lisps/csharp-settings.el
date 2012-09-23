@@ -99,15 +99,47 @@
        (append '(("\\.build$" . xml-mode)) auto-mode-alist))
 
 ;;;###autoload
-(defun smart-nant ()
+(defun smart-nant234 ()
   "doc."
   (interactive)
-   (let* ((file (buffer-file-name)) base-name default-command (input "")))
-   (message "smart nant...")
+    (let* ((file (buffer-file-name)) base-name default-command (input "")))
+     (if (file)
+         (message buffer-file-name)
+         )
   )
 
 
- (global-set-key [(f12)] 'smart-nant)
+
+(defun smart-nant (command)
+  "以命令COMMAND运行当前源程序对应的程序"
+  (interactive
+   (let* ((file (buffer-file-name)) base-name default-command (input ""))
+     (if (not file)
+         (error "此buffer不与任何文件关联")
+       (setq base-name (file-name-nondirectory file))
+       (setq default-command 
+             (let ((extension (file-name-extension file)))
+               (if (not extension)
+                   (setq extension ""))
+               (cond
+                ((or (equal extension "cpp") (equal (downcase extension) "c"))
+                 (format "./%s" (file-name-sans-extension base-name)))
+                ((equal extension "py")
+                 (format "python %s" base-name))
+                ((equal extension "java")
+                 (format "java %s" (file-name-sans-extension base-name)))
+                ((or (equal extension "sh") (equal major-mode 'sh-mode))
+                 (format "sh %s" base-name))
+                );;end cond
+               );;end let
+             );;end default-command
+       (while (string= input "")
+         (setq input (read-from-minibuffer "Command to run: " default-command nil nil 'shell-command-history default-command)));;end while
+       (list input)
+       );; end if
+     );; end let*
+   )
+  )
 
 
 ;;;###autoload
@@ -146,6 +178,10 @@
     (end-of-buffer-other-window buffer)))
 
 
+ (global-set-key [(f12)] 'smart-nant)
+
+
+(message "csharp-settings.el.....................")
 
 (provide 'csharp-settings)
 

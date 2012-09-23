@@ -35,7 +35,8 @@
 (global-set-key (kbd "C-c C-n") 'execute-extended-command)
 
 ;;设置不重启更新.emacs配置
-(global-set-key (kbd "C-c C-b") 'eval-buffer)
+;; (global-set-key (kbd "C-c C-v") 'eval-buffer)
+(global-set-key [(f11)] 'eval-buffer)
 
 
 ;; 变化后，更新文件
