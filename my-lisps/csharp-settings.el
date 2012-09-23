@@ -103,9 +103,11 @@
   "doc."
   (interactive)
    (let* ((file (buffer-file-name)) base-name default-command (input "")))
-  
+   (message "smart nant...")
   )
 
+
+ (global-set-key [(f12)] 'smart-nant)
 
 
 ;;;###autoload
