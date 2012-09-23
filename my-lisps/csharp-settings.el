@@ -99,18 +99,25 @@
        (append '(("\\.build$" . xml-mode)) auto-mode-alist))
 
 ;;;###autoload
-(defun smart-nant234 ()
+(defun smart-nant ()
   "doc."
   (interactive)
     (let* ((file (buffer-file-name)) base-name default-command (input "")))
-     (if (file)
-         (message buffer-file-name)
-         )
+    ;; (message default-directory)
+    ;; d:\TC_UP\PLUGINS\SoftwareFiles\gnuemacs\dea-read-only\lisps\
+    (setq nant-help-path (format "%s%s"  my-emacs-lisps-path "smart-compile/csharp/nant_helper.py"))
+    (setq nant-help-paras (format "\"%s;%s\"" default-directory "build"))
+    (setq nant-by-python (format "python %s %s" nant-help-path nant-help-paras))
+     (shell-command nant-by-python)
+    ;; (message nant-by-python)
+    ;; (message nant-help-paras)
+    ;; (message my-emacs-lisps-path)
+
   )
 
 
 
-(defun smart-nant (command)
+(defun smart-nant111 (command)
   "以命令COMMAND运行当前源程序对应的程序"
   (interactive
    (let* ((file (buffer-file-name)) base-name default-command (input ""))
@@ -133,9 +140,8 @@
                 );;end cond
                );;end let
              );;end default-command
-       (while (string= input "")
-         (setq input (read-from-minibuffer "Command to run: " default-command nil nil 'shell-command-history default-command)));;end while
-       (list input)
+       (setq input "wanghao")
+        (list input)
        );; end if
      );; end let*
    )

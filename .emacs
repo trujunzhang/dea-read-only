@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-20 19:59:01 Thursday by djzhang>
+;; Time-stamp: <2012-09-23 12:11:29 Sunday by djzhang>
 
 (defconst my-emacs-path           "d:/TC_UP/PLUGINS/SoftwareFiles/gnuemacs/dea-read-only/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "my-lisps/") "我自己写的emacs lisp包的路径")
