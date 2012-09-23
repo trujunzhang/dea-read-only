@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/compile-settings-autoloads.el
-;; Time-stamp: <2012-09-22 14:19:44 Saturday by djzhang>
+;; Time-stamp: <2012-09-23 11:07:02 Sunday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -77,13 +77,18 @@
                  (format "java %s" (file-name-sans-extension base-name)))
                 ((or (equal extension "sh") (equal major-mode 'sh-mode))
                  (format "sh %s" base-name)))))
-       (while (string= input "")
-         (setq input (read-from-minibuffer "Command to run: " default-command nil nil 'shell-command-history default-command)))
-       (list input))))
+        (while (string= input "")
+          (setq input (read-from-minibuffer "Command to run: " default-command nil nil 'shell-command-history default-command)))
+        (list input)
+	   )
+     )
+   )
   (let ((buffer "*Shell Command Output*"))
     (shell-command command buffer)
-    (sleep-for 1)
-    (end-of-buffer-other-window buffer)))
+    ;; (sleep-for 1)
+    ;; (end-of-buffer-other-window buffer)
+    )
+  )
 
 ;;;###autoload
 (defun make ()
