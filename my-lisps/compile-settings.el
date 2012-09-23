@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-11-21 15:47:18 Sunday by taoshanwen>
+;; Time-stamp: <2012-09-22 14:25:44 Saturday by djzhang>
 
 (require 'util)
 
@@ -24,6 +24,9 @@
    ("C-c c"    compile-buffer-sb)
    ("C-c r"    run-program-sb)
    ("C-c C"    smart-compile-sb)))
+
+(global-set-key [(f9)] 'run-program-sb)
+
 
 (eal-define-keys
  'java-mode-map

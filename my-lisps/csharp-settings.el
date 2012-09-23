@@ -90,6 +90,14 @@
 ;; =======================================================
 
 
+(require 'flymake-for-csharp)
+
+;; 高亮显示nant里的build文件
+;; (require 'ant)
+    (setq auto-mode-alist
+       (append '(("\\.build$" . xml-mode)) auto-mode-alist))
+
+
 (provide 'csharp-settings)
 
 
