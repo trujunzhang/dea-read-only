@@ -2,7 +2,7 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-24 14:41:03 Monday by djzhang>
+# Time-stamp: <2012-09-24 16:02:04 Monday by djzhang>
 
 # @version 1.0
 import os
@@ -43,4 +43,17 @@ def find_file_by_pattern(pattern='.*', base=".", circle=True):
            final_file_list += find_file_by_pattern(pattern, full_path)
 
     return final_file_list
+
+def find_up_file_by_pattern(pattern='.*', base=".", circle=True):
+    final_file_list = []
+    return final_file_list
+
+    
+    
+
+    
+    
+    
+
+
 

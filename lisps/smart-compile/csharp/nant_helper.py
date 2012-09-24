@@ -3,15 +3,17 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-24 14:40:38 Monday by djzhang>
+# Time-stamp: <2012-09-24 16:07:50 Monday by djzhang>
 
 # @version 1.0
 # @author ahei
+
+
 import string
 import sys
 import os
 
-from find_file_by_pattern import find_file_by_pattern
+from find_file_by_pattern import *
 
 
 def logmsg(msg):
@@ -20,6 +22,16 @@ def logmsg(msg):
 def logmsgbyinfo(info,msg):
     print (str.format("{0}: {1}",info,msg))
     
+
+def ShowException(e_para,type):
+    print "................ ******* ......................."
+    print ".................. *** ........................."
+    print (str.format("{1}: not found build file",e_para,type))
+    logmsgbyinfo("e_para",e_para)
+    print ".................. *** ........................."
+    print "................ ******* ......................."
+
+
 
 ## sys.argv
 ## 1 : local path
@@ -56,18 +68,28 @@ def nant_helper():
     ## find special file by argv
     try:
         files = find_file_by_pattern(e_pattern, e_base)
+        files_len=len(files)
         print "................................................."
-        if files.count > 0:
+        logmsgbyinfo("[1]: down findsize",files_len)
+        print "................................................."
+        if files_len < 1:
+            files = find_up_file_by_pattern(e_pattern, e_base)
+            files_len=len(files)
+            logmsgbyinfo("[2]: up findsize",files_len)
+            print "................................................."
+        
+        if files_len > 0:
             nant_event(files[0],e_type)
+        else:
+            ShowException(e_para,"info")
+
         #s1=sys.argv[5]
     except :
-        print "................ ******* ......................."
-        print ".................. *** ........................."
-        print (str.format("exception:not found build file, [{0}]",e_para))
-        print ".................. *** ........................."
-        print "................ ******* ......................."
-        
+        ShowException(e_para,"exception")
 
+
+
+    
 
 
 
