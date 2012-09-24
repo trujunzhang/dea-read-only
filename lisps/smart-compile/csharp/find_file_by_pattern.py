@@ -2,11 +2,24 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-24 16:02:04 Monday by djzhang>
+# Time-stamp: <2012-09-24 16:32:52 Monday by djzhang>
 
 # @version 1.0
 import os
 import re
+
+def GetParentPath(strPath):  
+    if not strPath:  
+        return None;  
+      
+    lsPath = os.path.split(strPath);  
+    #print(lsPath);  
+    #print("lsPath[1] = %s" %lsPath[1]);  
+    if lsPath[1]:  
+        return lsPath[0];  
+      
+    lsPath = os.path.split(lsPath[0]);  
+    return lsPath[0];  
 
 
 def find_file_by_pattern(pattern='.*', base=".", circle=True):
@@ -17,6 +30,9 @@ def find_file_by_pattern(pattern='.*', base=".", circle=True):
         
     final_file_list = []
     #print base
+    if not os.path.exists(base):
+        return final_file_list
+
     cur_list = os.listdir(base)
     for item in cur_list:
         if item == ".svn":
@@ -39,13 +55,25 @@ def find_file_by_pattern(pattern='.*', base=".", circle=True):
                ##print pathsplit[1]
                if pathsplit[1] == pattern:
                    final_file_list.append(full_path)
-        else:
+        elif circle:
            final_file_list += find_file_by_pattern(pattern, full_path)
 
     return final_file_list
 
-def find_up_file_by_pattern(pattern='.*', base=".", circle=True):
+def find_up_file_by_pattern(pattern='.*', base="."):
     final_file_list = []
+    parent=base
+    x = [1,2,3,4]
+    for i in x:
+        parent=GetParentPath(parent)
+        files=find_file_by_pattern(pattern, parent,False)
+        if len(files) >0:
+#            print "fond************"
+            final_file_list.append(files[0])
+            break
+#        print parent
+#        print "................................................."
+    
     return final_file_list
 
     

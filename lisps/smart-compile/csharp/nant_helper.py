@@ -65,11 +65,15 @@ def nant_helper():
             e_base = strlist[0]
             e_type = strlist[1]
 
+
+#    if not os.path.exists(e_base) :
+#        ShowException(e_para,"exist")
+#        return
+
     ## find special file by argv
-    try:
+#    try:
         files = find_file_by_pattern(e_pattern, e_base)
         files_len=len(files)
-        print "................................................."
         logmsgbyinfo("[1]: down findsize",files_len)
         print "................................................."
         if files_len < 1:
@@ -84,8 +88,8 @@ def nant_helper():
             ShowException(e_para,"info")
 
         #s1=sys.argv[5]
-    except :
-        ShowException(e_para,"exception")
+#    except :
+#        ShowException(e_para,"exception")
 
 
 
