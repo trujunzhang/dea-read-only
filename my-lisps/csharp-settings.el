@@ -109,11 +109,15 @@
     (setq nant-help-paras (format "\"%s;%s\"" default-directory type))
     ;; python's para like this: ["path;type"]{"c:\xxx_fold;clean"}
     (setq nant-by-python (format "python \"%s\" %s" nant-help-py-path nant-help-paras))
-     (shell-command nant-by-python)
+    (shell-command nant-by-python)
+    (other-window 3)
     ;; (message nant-by-python)
     ;; (message nant-help-paras)
     ;; (message my-emacs-lisps-path)
     ;; (ido-switch-buffer "djzhang-settings.el")
+    ;; (delete-other-windows)
+    ;; (list-buffers)
+    ;; (other-window)
 
   )
 
@@ -125,7 +129,24 @@
   )
 
 
+;;;###autoload
+(defun smart-nant-run ()
+  "doc."
+  (interactive)
+  (smart-nant   "run")
+  )
 
+;;;###autoload
+(defun smart-nant-clean ()
+  "doc."
+  (interactive)
+  (smart-nant "clean")
+  )
+
+
+
+(global-set-key [(f10)] 'smart-nant-clean)
+(global-set-key [(f11)] 'smart-nant-run)
 (global-set-key [(f12)] 'smart-nant-build)
 
 

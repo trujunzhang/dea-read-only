@@ -36,7 +36,7 @@
 
 ;;设置不重启更新.emacs配置
 ;; (global-set-key (kbd "C-c C-v") 'eval-buffer)
-(global-set-key [(f11)] 'eval-buffer)
+;; (global-set-key [(f11)] 'eval-buffer)
 
 
 ;; 变化后，更新文件

@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-04-10 18:03:32 Saturday by ahei>
+;; Time-stamp: <2012-09-24 09:54:17 Monday by djzhang>
 
 (defun icicles-settings ()
   "settings of icicles."
@@ -63,8 +63,10 @@
            (fboundp 'lacarte-execute-menu-command)) ; `ESC M-x'
           (,(kbd "M-`")          lacarte-execute-menu-command
            (fboundp 'lacarte-execute-menu-command)) ; `M-`' - replaces `tmm-menubar'.
-          (,(kbd "<f10>")        lacarte-execute-menu-command
-           (fboundp 'lacarte-execute-menu-command))) ; `f10' - replaces `menu-bar-open'.
+          ;; (,(kbd "<f10>")        lacarte-execute-menu-command
+           ;; (fboundp 'lacarte-execute-menu-command)
+           ;; ); `f10' - replaces `menu-bar-open'.
+          )
         ))
 
 (eval-after-load "icicles"

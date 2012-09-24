@@ -3,7 +3,7 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-23 15:39:27 Sunday by djzhang>
+# Time-stamp: <2012-09-23 19:22:09 Sunday by djzhang>
 
 # @version 1.0
 # @author ahei
@@ -30,7 +30,7 @@ def nant_helper():
     print "................................................."
     
     e_type = ""
-    e_pattern = ""
+    e_pattern = ".build"
     e_base = ""
     e_para=""
     logmsgbyinfo("argv's leng",len(sys.argv))
@@ -60,12 +60,11 @@ def nant_helper():
             nant_event(files[0],e_type)
         #s1=sys.argv[5]
     except :
-        print "................................................."
-        print "................................................."
+        print "................ ******* ......................."
+        print ".................. *** ........................."
         print (str.format("exception:not found build file, [{0}]",e_para))
-        print "................................................."    
-        print "................................................."
-        
+        print ".................. *** ........................."
+        print "................ ******* ......................."
         
 
 
