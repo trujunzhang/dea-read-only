@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-24 10:10:34 Monday by djzhang>
+;; Time-stamp: <2012-09-23 12:11:29 Sunday by djzhang>
 
 (defconst my-emacs-path           "d:/TC_UP/PLUGINS/SoftwareFiles/gnuemacs/dea-read-only/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "my-lisps/") "我自己写的emacs lisp包的路径")
@@ -127,7 +127,7 @@
 (message ".... recenrf-settings")
 
 ;; 在buffer中方便的查找字符串: color-moccur
-(require 'moccur-settings)
+;;(require 'moccur-settings)
 
 ;; Emacs超强的增量搜索Isearch配置
 (require 'isearch-settings)
@@ -136,7 +136,7 @@
 (if is-before-emacs-21 (require 'table "table-for-21"))
 
 ;; 把文件或buffer彩色输出成html
- ;; (require 'htmlize)
+ (require 'htmlize)
 
 ;; time-stamp, 在文件头记录修改时间, 并动态更新
 (require 'time-stamp-settings)
@@ -201,7 +201,7 @@
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
 ;; 查看Emacs内进程
-;; (autoload 'list-processes+ "list-processes+" "增强的`list-processes'命令" t)
+(autoload 'list-processes+ "list-processes+" "增强的`list-processes'命令" t)
 
 (require 'view-mode-settings)
 
@@ -301,11 +301,11 @@
 ;;(require 'w3m-settings)
 
 ;; 以另一用户编辑文件, 或者编辑远程主机文件
-;; (require 'tramp-settings)
+(require 'tramp-settings)
 
 ;; erc: Emacs中的IRC
 ;; ERC使用简介 emacser.com/erc.htm
-;; (require 'erc-settings)
+(require 'erc-settings)
 
 ;; spell check
 (setq-default ispell-program-name "aspell")
@@ -313,11 +313,11 @@
 (define-key global-map (kbd "C-q") 'quoted-insert-sb)
 
 ;; Emacs中的包管理器
-;; (require 'package)
-;; (package-initialize)
+(require 'package)
+(package-initialize)
 
-;; (require 'auto-install)
-;; (setq auto-install-directory (concat my-emacs-lisps-path "auto-install"))
+(require 'auto-install)
+(setq auto-install-directory (concat my-emacs-lisps-path "auto-install"))
 
 (unless mswin
   (defun install-.emacs ()
@@ -327,9 +327,9 @@
   (add-hook 'kill-emacs-hook 'install-.emacs))
 
 ;; 把pdf,ps,dvi文件转换为png格式, 在Emacs里面浏览
-;; (if is-after-emacs-23
-  ;; (require 'doc-view)
-  ;; (setq doc-view-conversion-refresh-interval 3))
+(if is-after-emacs-23
+  (require 'doc-view)
+  (setq doc-view-conversion-refresh-interval 3))
 
 ;; 在Emacs里面使用shell
 (require 'term-settings)
@@ -340,7 +340,7 @@
 (require 'ioccur)
 
 ;; 查询天气预报
-;; (require 'weather-settings)
+(require 'weather-settings)
 
 ;; 可以把光标由方块变成一个小长条
 (require 'bar-cursor)
@@ -421,7 +421,7 @@ If FULL is t, copy full file name."
 ;; 用渐变颜色显示你最近的修改
 ;; http://emacser.com/highlight-tail.htm
 ;; 与semantic冲突，启动了它后，打开大文件的时候，会发现buffer大范围的刷屏
- (require 'highlight-tail-settings)
+;; (require 'highlight-tail-settings)
 
 ;; Emacs才是世界上最强大的IDE － 用Emaci阅读文件
 ;; http://emacser.com/emaci.htm
@@ -448,14 +448,14 @@ If FULL is t, copy full file name."
 
 ;; 用weblogger写WordPress博客
 ;; http://emacser.com/weblogger.htm
-;; (require 'weblogger-settings)
+(require 'weblogger-settings)
 
 ;; 非常强大的文本画图的工具
-;; (require 'artist-settings)
+(require 'artist-settings)
 
 ;; google-maps-el – Emacs中的谷歌地图
 ;; http://emacser.com/emacs-google-map.htm
-;; (require 'google-maps-settings)
+(require 'google-maps-settings)
 
 ;; 关闭buffer的时候, 如果该buffer有对应的进程存在, 不提示, 烦
 (delq 'process-kill-buffer-query-function kill-buffer-query-functions)

@@ -3,7 +3,7 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-23 19:22:09 Sunday by djzhang>
+# Time-stamp: <2012-09-24 14:40:38 Monday by djzhang>
 
 # @version 1.0
 # @author ahei
@@ -56,6 +56,7 @@ def nant_helper():
     ## find special file by argv
     try:
         files = find_file_by_pattern(e_pattern, e_base)
+        print "................................................."
         if files.count > 0:
             nant_event(files[0],e_type)
         #s1=sys.argv[5]

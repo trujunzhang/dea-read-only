@@ -111,6 +111,7 @@
     (setq nant-by-python (format "python \"%s\" %s" nant-help-py-path nant-help-paras))
     (shell-command nant-by-python)
     (other-window 3)
+    (delete-other-windows)
     ;; (message nant-by-python)
     ;; (message nant-help-paras)
     ;; (message my-emacs-lisps-path)

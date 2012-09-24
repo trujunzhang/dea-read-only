@@ -2,7 +2,7 @@
 
 #!/usr/bin/env python
 
-# Time-stamp: <2012-09-23 09:44:36 Sunday by djzhang>
+# Time-stamp: <2012-09-24 14:41:03 Monday by djzhang>
 
 # @version 1.0
 import os
@@ -34,7 +34,11 @@ def find_file_by_pattern(pattern='.*', base=".", circle=True):
         bfile = os.path.isfile(item)
         if os.path.isfile(full_path):
            if re_file.search(full_path):
-               final_file_list.append(full_path)
+               print (str.format("{0}: {1}","full_path",full_path))
+               pathsplit=os.path.splitext(item)
+               ##print pathsplit[1]
+               if pathsplit[1] == pattern:
+                   final_file_list.append(full_path)
         else:
            final_file_list += find_file_by_pattern(pattern, full_path)
 
