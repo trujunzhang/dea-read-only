@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-25 10:50:47 Tuesday by djzhang>
+;; Time-stamp: <2012-09-25 11:06:06 Tuesday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -130,6 +130,97 @@
 ;;;; 隐藏和显示ecb窗口
 (define-key global-map [(control f1)] 'ecb-activate)
 (define-key global-map [(control f2)] 'ecb-deactivate)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; c/c++
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 定位：窗口切换，翻页，文件切换
+
+;; 源代码文件跳转
+(setq ff-other-file-alist
+      '((".h" (".cpp" ".c" ".cpt" ".cc"))
+        (".cpp" (".h"))
+        (".cc"  (".h"))
+        (".c"   (".h"))
+        (".cpt" (".h"))
+        (".ct"  (".h"))))
+
+
+
+;;==============================================================================
+;; c/c++
+
+;;(defun my-c++-mode-hook()
+;;  (setq tab-width 2 indent-tabs-mode nil)
+;;)
+;;(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;;cscope查找设置
+;(global-set-key "\C-cf" 'cscope-find-global-definition);;搜索定义
+;(global-set-key"\C-d"'cscope-find-global-definition)
+;(global-set-key[C-,]'cscope-pop-mark);;跳出转向;;设置Alt+Enter为自动补全菜单
+
+;(global-set-key[(f6)]'cscope-set-initial-directory)
+;(define-keyglobal-map[(controlf4)]'cscope-unset-initial-directory)
+;(global-set-key[(f3)]'cscope-find-this-symbol)
+;(global-set-key[(f4)]'cscope-find-global-definition)
+;(define-keyglobal-map[(controlf7)]'cscope-find-global-definition-no-prompting)
+;(define-keyglobal-map[(controlf8)]'cscope-pop-mark)
+;(define-keyglobal-map[(controlf9)]'cscope-next-symbol)
+;(define-keyglobal-map[(controlf10)]'cscope-next-file)
+;(define-keyglobal-map[(controlf11)]'cscope-prev-symbol)
+;(define-keyglobal-map[(controlf12)]'cscope-prev-file)
+;(define-keyglobal-map[(metaf9)]'cscope-display-buffer)
+;(defin-ekeyglobal-map[(metaf10)]'cscope-display-buffer-toggle)
+
+;;(global-set-key [(meta return)] 'semantic-ia-complete-symbol-menu)
+
+;;头文件
+(if (string= window-system "w32")
+    (progn
+      (setq cc-search-directories
+            (list "."                 
+                  "d:/dev/include"
+                  "d:/MinGW//include/"
+                  "d:/MinGW/lib/gcc/mingw32//4.6.2/include/c++"
+                  )))
+  (progn
+    (setq cc-search-directories
+          (list
+           "/usr/include/wine/windows"
+           ))))
+
+;;c
+(defun my-c-mode-common-hook()
+  (setq tab-width 4 indent-tabs-mode nil)
+  (c-set-style "stroustrup")
+  (c-toggle-auto-hungry-state 1);Backspace
+  (c-toggle-auto-state 0)
+  (c-set-offset 'member-init-intro '++)
+  (c-set-offset 'innamespace 0)) ;;名字空间里2个缩进
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+;;auto indent 很奇怪，设置自动缩进需要用global-set-key
+(global-set-key "\C-m" 'reindent-then-newline-and-indent)
+
+            
+;;C/C++语法检查
+;;(global-cwarn-mode 1)
+
+(add-to-list 'auto-mode-alist '("\\.dnc\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cpt\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.hi\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.ct\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.dox\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.ce\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\'" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . c++-mode))
+
 
 
 (provide 'djzhang-mingw-gcc-settinigs)
