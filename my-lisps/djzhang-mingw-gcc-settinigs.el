@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-25 11:06:06 Tuesday by djzhang>
+;; Time-stamp: <2012-09-25 11:39:06 Tuesday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -220,6 +220,464 @@
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . c++-mode))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; cimpile
+;; 编译定制
+(setq my-compile-test-file "")
+(setq my-compile-test-args "")
+(setq compile-command "make -j 3  cd=true d=true")
+
+(defun my-file-name (name)
+  "获得文件名，返回结果不包括路径和扩展名"
+  (setq fields (split-string name "/"))
+  (setq name (elt fields (- (length fields) 1)))
+  (setq len (length name))
+  (setq i len)
+  (setq ch "")
+  (while (and (> i 0) (not (string= ch ".")))
+    (progn
+      (setq ch (substring name (- i 1) i))
+      (setq i (- i 1))))
+  (setq name (substring name 0 i)))
+
+
+(defun my-file-extension (name)
+  "获取文件扩展名，如果文件没有扩展名返回空字符串"
+  (setq len (length name))
+  (setq i len)
+  (setq ch "")
+  (while (and (> i 0) (not (string= ch ".")))
+    (progn
+      (setq ch (substring name (- i 1) i))
+      (setq i (- i 1))))
+  (if (> i 0)
+      (setq name (substring name (+ i 1)))
+    (setq name "")))
+
+
+(defun my-onekey-compile ()
+  "先保存所有文件，然后编译程序，不包括测试程序"
+  (interactive)
+  (save-some-buffers t)
+  (compile compile-command))
+
+(defun my-onekey-compile-test()
+  "先保存所有文件，然后编译程序，包括当前的测试程序"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (setq command compile-command)
+  (setq extension (my-file-extension buffer-file-name))
+  (setq test-name nil)
+  (setq type nil)
+
+  (if (or (string= extension "ct") (string= extension "ce"))
+      (setq my-compile-test-file buffer-file-name))
+  (if (not (string= my-compile-test-file ""))
+      (setq extension (file-name-extension my-compile-test-file)))
+
+  ;;如果是.ct或者.ce文件，修改测试名字
+  (cond
+   ((string= extension "ct")   (setq type " t="))
+   ((string= extension "ce")   (setq type " e=")))
+
+  (if (string= my-compile-test-file "")
+      (setq command compile-command)
+    (progn
+      (setq test-name (my-file-name my-compile-test-file))
+      (setq command (concat compile-command type test-name))))
+  
+  (compile command)
+  (setq compile-command temp))
+
+(defun my-compile-clean ()
+  "在编译命令之后加上clean,清除完了再恢复原来的编译命令"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (compile (concat compile-command " clean"))
+  (setq compile-command temp))
+
+(defun my-compile-get-param(name)
+  "获得编译命令里的参数值"
+  (let ((fields)(ret))
+    (setq fields (split-string compile-command " "))
+    (while fields
+      (setq param (car fields))
+      (setq pair (split-string param "="))
+      (setq key (car pair))
+
+      (if (and (eq (length pair) 2) (string= key name))
+          (progn
+            (setq val (cdr pair))
+            (setq ret (car val))
+            (setq fields nil))
+        (setq fields (cdr fields)))
+      )
+    (if (and (string= window-system "w32") (string= name "p"))
+        (setq ret "msw")
+      (setq ret ret))))
+
+(defun my-compile-test-prefix()
+  "获得工程的测试目录，这个目录根据编译参数产生"
+  (let ((p)(ret))
+    (setq p (my-compile-get-param "p"))
+    (if (not p)
+        (setq p "linux"))
+    (setq d (my-compile-get-param "d"))
+    (if (and d (string= d "true"))
+        (setq ret (concat (dnc-project-name) "-d." p))
+      (setq ret (concat  (dnc-project-name) "." p)))
+    ))
+
+(defun my-compile-run-command()
+  "获得测试程序的路径和名称，使用这个名称可以直接运行"
+  (let ((p)(ret)(dir-spliter))
+    (setq p (my-compile-get-param "p"))
+    (if (string= window-system "w32")
+        (setq dir-spliter "\\")
+      (setq dir-spliter "/"))
+    
+    (if (string= "ct" (file-name-extension my-compile-test-file))
+        (setq ret (concat ".."dir-spliter"test"dir-spliter (my-compile-test-prefix) "."
+                          (my-file-name my-compile-test-file) ".ct"))
+      (setq ret (concat ".."dir-spliter"bin"dir-spliter (my-file-name my-compile-test-file))))
+    
+    (if (string= "msw" p)
+        (setq ret (concat ret ".exe")))
+    
+    (setq ret ret)
+    ))
+
+
+(defun my-compile-run ()
+  "编译并运行编译好的程序"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (setq extension (my-file-extension buffer-file-name))
+  (setq test-name nil)
+  (setq type nil)
+
+  (if (or (string= extension "ct") (string= extension "ce"))
+      (setq my-compile-test-file buffer-file-name))
+  (if (not (string= my-compile-test-file ""))
+      (setq extension (file-name-extension my-compile-test-file)))
+  
+  ;;如果是.ct或者.ce文件，修改测试名字
+  (cond
+   ((string= extension "ct") (setq type " t="))
+   ((string= extension "ce") (setq type " e=")))
+  
+  (if (string= my-compile-test-file "")
+      (setq command compile-command)
+    (progn
+      (setq test-name (my-file-name my-compile-test-file))
+      (setq command (concat compile-command type test-name))
+      (setq command (concat command " && " (my-compile-run-command)))
+      (setq command (concat command " " my-compile-test-args))))
+  (compile command)
+  (setq compile-command temp))
+
+(setq my-compile-run-any-command "gcc")
+(defun my-compile-run-any ()
+  "编译任意的单个文件并运行编译好的程序"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (setq test-name nil)
+  (setq type nil)
+  (setq extension (file-name-extension buffer-file-name))
+  (setq run-name (my-file-name buffer-file-name))
+  (setq run-file (concat run-name "." extension))
+  
+  (setq command (concat my-compile-run-any-command " -o " run-name " " run-file))
+  (setq command (concat command " && ./" run-name))
+  (setq command (concat command " " my-compile-test-args))
+  
+  (compile command)
+  (setq compile-command temp))
+
+(defun my-compile-gccsense ()
+  "使用gccsense编译所有文件，然后使得成员提示会起作用"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (compile "make gccsense")
+  (setq compile-command temp))
+
+(defun my-modify-compile-run-any-command(command)
+  "修改my-compile-run-any命令所使用的编译命令"
+  (interactive
+   (list (read-from-minibuffer "Modify compile run any command: "
+                               (eval my-compile-run-any-command) nil nil))
+   (list (eval my-compile-run-any-command)))
+  (setq my-compile-run-any-command command))
+
+(defun my-compile-test-all()
+  "编译所有测试程序并且运行它们"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (compile (concat compile-command " args=\"" my-compile-test-args "\" test"))
+  (setq compile-command temp))
+
+(defun my-compile-exe-all()
+  "编译所有可执行程序"
+  (interactive)
+  (save-some-buffers t)
+  (setq temp compile-command)
+  (compile (concat compile-command " exe"))
+  (setq compile-command temp))
+
+
+(defun my-compile-modify-test-args(args)
+  "修改测试程序的参数"
+  (interactive
+   (list (read-from-minibuffer "Modify test arguments: "
+                               (eval my-compile-test-args) nil nil))
+   (list (eval my-compile-test-args)))
+  (setq my-compile-test-args args))
+
+(defun my-modify-compile-command(command)
+  "修改编译命令compile-command，并且执行编译"
+  (interactive
+   (list (read-from-minibuffer "Modify compile command: "
+                               (eval compile-command) nil nil
+                               '(compile-history . 1)))
+   (list (eval compile-command)))
+  (save-some-buffers t)
+  (compile command))
+
+(defun my-compile-modify-test (command)
+  "修改测试单元my-compile-test-file，并且执行编译和程序"
+  (interactive
+   (list (read-from-minibuffer "Modify test unit: "
+                               (eval my-compile-test-file) nil nil))
+   (list (eval my-compile-test-file)))
+  (setq my-compile-test-file command)
+  (my-compile-run))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; debug
+;;调试定制
+(defun my-gdb-get-file ()
+  "获得正在调试的可执行文件名"
+  (setq file (buffer-name gud-comint-buffer))
+  (setq len (length file))
+  (setq file (substring file 5 (- len  1))))
+
+(defun my-gdb-onekey-debug (command)
+  "一键调试"
+  (let ((old-buffer)(window))
+    (interactive)
+    (setq old-buffer (window-buffer))
+    (setq window (selected-window))
+    (gdb (concat "gdb --annotate=3 -windows" command))
+    (set-window-buffer (selected-window) old-buffer)
+    (other-window 1)
+    (set-window-buffer (selected-window) gud-comint-buffer)
+    (select-window window)))
+
+(defun my-gdb-ptype()
+  "打印光标所在处的标识符的类型"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "ptype " symbol))))
+
+(defun my-gdb-ptype-dcptr()
+  "打印光标所在处的标识符的类型"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "ptype " symbol ".m_p"))))
+
+(defun my-gdb-print-dcptr()
+  "打印光标所在处的智能指针的对象"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "print " symbol ".m_p"))))
+
+(defun my-gdb-pstar-dcptr()
+  "打印光标所在处的智能指针的对象"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "print *" symbol ".m_p"))))
+
+(setq my-gdb-source-window nil)
+
+(defun my-gdb-switch-window()
+  "在源代码窗口和调试窗口之间进行切换"
+  (interactive)
+  (if (eq (window-buffer) gud-comint-buffer)
+      (select-window my-gdb-source-window)
+    (progn 
+      (setq my-gdb-source-window (selected-window))
+      (setq gdb-window (get-buffer-window gud-comint-buffer))
+      (if gdb-window
+          (select-window gdb-window)
+        (progn
+          (other-window 1)
+          (set-window-buffer (selected-window) gud-comint-buffer))))))
+
+(defun my-gdb-frame-buffer(name)
+  "打开指定调试frame窗口,name 可以是任何gdb-buffer-rules-assoc变量列出的名字"
+  (setq window (selected-window))
+  (other-window 1)
+  (if (eq (window-buffer) gud-comint-buffer) 
+      (other-window 1))
+  (if (eq (gdb-get-buffer name) nil)
+      (set-window-buffer (selected-window) (gdb-get-buffer-create name)))
+  (if (eq (get-buffer-window (gdb-get-buffer name)) nil)
+      (set-window-buffer (selected-window) (gdb-get-buffer name)))
+  (select-window window))
+
+
+(defun my-gdb-assembler-buffer()
+  "在另外一个窗口打开assembler frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-assembler-buffer))
+(defun my-gdb-locals-buffer()
+  "在另外一个窗口打开locals frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-locals-buffer))
+(defun my-gdb-memory-buffer()
+  "在另外一个窗口打开memory frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-memory-buffer))
+(defun my-gdb-registers-buffer()
+  "在另外一个窗口打开registers frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-registers-buffer))
+(defun my-gdb-threads-buffer()
+  "在另外一个窗口打开threads frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-threads-buffer))
+(defun my-gdb-stack-buffer()
+  "在另外一个窗口打开stack frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-stack-buffer))
+(defun my-gdb-breakpoints-buffer()
+  "在另外一个窗口打开breakpoints frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-breakpoints-buffer))
+(defun my-gdb-inferior-io()
+  "在另外一个窗口打开inferior frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-inferior-io))
+(defun my-gdb-partial-output-buffer()
+  "在另外一个窗口打开partial output frame"
+  (interactive)
+  (my-gdb-frame-buffer 'gdb-partial-output-buffer))
+
+(defun my-gdb-print-object()
+  "打开打印对象状态，打开后能通过C++的虚拟机制打印一个对象的最终类的信息"
+  (interactive)
+  (gud-call "set print object on"))
+
+
+;;调试环境
+(setq gud-tooltip-mode t)
+(setq gdb-many-windows t)
+
+(require 'gud)
+(require 'gdb-ui)
+
+;;gdb正在调试的文件
+(setq my-gdb-file "")
+
+(defun my-gdb-test-debug-or-go ()
+  "调试测试文件。这个函数的行为是这样的:
+   *. 如果当前buffer是一个.ct或者.ce文件，并且gdb没有启动，那么启动一个gdb，并且装载当前的测试文件
+   *. 如果当前buffer不是一个.ct或者.ce文件，并且gdb没有启动，那么启动一个gdb，并且装载当前的测试文件
+   *. 如果gdb已经启动，那么继续进测试或者开始运行测试
+   *. 如果当前buffer是一个.ct或者.ce文件，那么这个函数会把my-compile-test-file变量改成当前buffer里的测试名称
+"
+  (interactive)
+  (if (string= (my-file-extension buffer-file-name) "ct")
+      (setq my-compile-test-file buffer-file-name))
+  (if (string= my-compile-test-file "")
+      (setq command "")
+    (setq command (my-compile-run-command)))
+
+  ;;判断是否有gdb在运行
+  (setq has-gdb nil)
+  (if (and gud-comint-buffer
+           (buffer-name gud-comint-buffer)
+           (get-buffer-process gud-comint-buffer)
+           (with-current-buffer gud-comint-buffer (eq gud-minor-mode 'gdba)))
+      (setq has-gdb "true"))
+
+  (if has-gdb
+      (progn 
+        (if (eq (get-buffer-window gud-comint-buffer) nil)
+            (progn
+              (other-window 1)
+              (set-window-buffer (selected-window) gud-comint-buffer)))
+        
+        (setq window (selected-window))
+        (gud-call (if gdb-active-process "continue" "run") "")
+        (select-window window))
+    (progn 
+      (setq my-gdb-source-window (selected-window))
+      (my-gdb-onekey-debug command)
+      (setq my-gdb-file command))))
+
+
+(defun my-gdb-debug-or-go ()
+  "If gdb isn't running; run gdb, else call gud-go."
+  (interactive)
+  (if (and gud-comint-buffer
+           (buffer-name gud-comint-buffer)
+           (get-buffer-process gud-comint-buffer)
+           (with-current-buffer gud-comint-buffer (eq gud-minor-mode 'gdba)))
+      (progn
+        (setq window (selected-window))
+        (gud-call (if gdb-active-process "continue" "run") "")
+        (select-window window))
+    (my-gdb-onekey-debug "")))
+
+(defun my-gdb-break-remove ()
+  "Set/clear breakpoin."
+  (interactive)
+  (save-excursion
+    (if (eq (car (fringe-bitmaps-at-pos (point))) 'breakpoint)
+        (gud-remove nil)
+      (gud-break nil))))
+
+(defun my-gdb-break-watch()
+  "对光标当前的变量设置内存断点"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "watch " symbol))))
+(defun my-gdb-break-rwatch()
+  "对光标当前的变量设置内存断点"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "rwatch " symbol))))
+(defun my-gdb-break-awatch()
+  "对光标当前的变量设置内存断点"
+  (interactive)
+  (setq symbol (sbw-get-symbol-at-cursor))
+  (if symbol
+      (gud-call (concat "awatch " symbol))))
+
+
+(defun my-gdb-kill ()
+  "Kill gdb process."
+  (interactive)
+  (with-current-buffer gud-comint-buffer (comint-skip-input))
+  (kill-process (get-buffer-process gud-comint-buffer)))
+;;(setq gdb-many-windows t)
+
 
 
 
