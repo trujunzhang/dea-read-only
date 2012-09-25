@@ -61,10 +61,95 @@
 ;; 设置显示yasnippet的insert对话框的快捷键
 ;; (global-set-key "\C-i" 'yas/insert-snippet)
 
- (global-set-key [(f5)] 'yas/insert-snippet)
+(global-set-key [(f5)] 'yas/insert-snippet)
 
 ;; (global-set-key [(f7)] 'shell-)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; buffer 操作
+(defun my-revert-buffer()
+  "刷新buffer，当文件在外部被修改时有用"
+  (interactive)
+  (revert-buffer nil t))
+
+(defun my-revert-buffer-all()
+  "重新装载所有buffer中的文件"
+  (interactive)
+  (let ((buffers (buffer-list))
+        (old-buffer (current-buffer)
+                    ))
+    (while buffers
+      (setq buffer (car buffers))
+      (set-buffer buffer)
+      (if (buffer-file-name)
+          (revert-buffer nil t))
+      (pop buffers))
+    (set-buffer old-buffer)
+    ))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; window
+;;为支持高清显示器
+;;水平拆分成3个窗口
+(defun split-window-horizontally3()
+  "把窗口拆分成水平的3个，适合高清显示器"
+  (interactive)
+  (setq width (+ (/ (window-width) 3) 1))
+  (split-window nil (* width 2) t)
+  (split-window nil width t)
+  )
+
+(defun split-window5-and-fullscreen()
+  "把窗口拆分成水平的5个，并且全屏显示emacs"
+  (interactive)
+  (my-fullscreen)
+  (split-window5))
+
+;;拆分成6个窗口
+(defun split-window6()
+  "把窗口拆分成6个，适合高清显示器"
+  (interactive)
+  (setq width (+ (/ (window-width) 3) 1))
+  (setq height (/ (window-height) 2))
+  
+  (setq w (split-window nil (* width 2) t))
+  (split-window w height)
+  
+  (setq w (split-window nil width t))
+  (split-window w height)
+
+  (split-window nil height)
+  )
+
+(defun split-window5()
+  "把窗口拆分成5个，中间一个很高的窗口，它的两边一边两个，适合高清显示器"
+  (interactive)
+  (setq width (+ (/ (window-width) 3) 1))
+  (setq height (/ (window-height) 2))
+  
+  (setq w (split-window nil (* width 2) t))
+  (split-window w height)
+  
+  (setq w (split-window nil width t))
+
+  (split-window nil height)
+  )
+
+;;窗口,文件切换
+(defun my-previous-window()
+  (interactive)
+  (select-window (previous-window)))
+(defun my-next-window()
+  (interactive)
+  (select-window (next-window)))
+
+(defun onekey-kill-buffer()
+  (interactive)
+  (kill-buffer (current-buffer)))
 
 
 (message "..................................................< djzhang-settings >.................")

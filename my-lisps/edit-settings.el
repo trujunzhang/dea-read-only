@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-09-02 17:09:59 Thursday by taoshanwen>
+;; Time-stamp: <2012-09-25 12:20:18 Tuesday by djzhang>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -83,7 +83,7 @@ and `transient-mark-mode'." t)
    ("C-M-w" copy-sentence)
    ;; 删除整行
    ("M-K" kill-line)
-   ("C-k" smart-kill)
+   ;; ("C-k" smart-kill)
    ("C-\\" delete-indentation)
    ("C-x M-M" mark-invisible-region)
    ("M-U" del-to-begin)

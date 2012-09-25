@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-25 11:39:06 Tuesday by djzhang>
+;; Time-stamp: <2012-09-25 12:24:26 Tuesday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -121,17 +121,48 @@
  (setq ecb-auto-activate t
        ecb-tip-of-the-day nil)
 ;(ecb-hide-ecb-windows)
-;;;; 各窗口间切换
- ;; (global-set-key [M-left] 'windmove-left)
- ;; (global-set-key [M-right] 'windmove-right)
- ;; (global-set-key [M-up] 'windmove-up)
- ;; (global-set-key [M-down] 'windmove-down)
 
 ;;;; 隐藏和显示ecb窗口
-(define-key global-map [(control f1)] 'ecb-activate)
-(define-key global-map [(control f2)] 'ecb-deactivate)
+;; (define-key global-map [(control f2)] 'ecb-deactivate)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ecb
+(setq g-switch-ecb-flag t)
+(defun switch-ecb-activate()
+  (interactive)
+  (if g-switch-ecb-flag
+      (progn
+        (setq g-switch-ecb-flag nil)
+        (ecb-activate))
+    (progn
+      (setq g-switch-ecb-flag t)
+      (ecb-deactivate))))
 
+(setq g-previous-buffer-name nil)
+(defun switch-ecb-edit-window()
+  "在ECB窗口和编辑窗口之间进行切换"
+  (interactive)
+  (let ((current-buffer-name (buffer-name)))
+    (if (or (string= current-buffer-name " *ECB Directories*")
+            (string= current-buffer-name " *ECB Sources*")
+            (string= current-buffer-name " *ECB Methods*")
+            (string= current-buffer-name " *ECB History*"))
+        (ecb-goto-window-edit-last)
+      (progn
+        (if (string= g-previous-buffer-name " *ECB Directories*")
+            (ecb-goto-window-directories)()
+            (if (string= g-previous-buffer-name " *ECB Sources*")
+                (ecb-goto-window-sources)()
+                (if (string= g-previous-buffer-name " *ECB Methods*")
+                    (ecb-goto-window-methods)()
+                    (if (string= g-previous-buffer-name " *ECB History*")
+                        (ecb-goto-window-history)()
+                        (ecb-goto-window-methods)))))))
+    (setq g-previous-buffer-name current-buffer-name)
+    ))
+
+(define-key global-map [(control f1)] 'switch-ecb-activate)
+(define-key global-map [(control f2)] 'switch-ecb-edit-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; c/c++
@@ -678,7 +709,65 @@
   (kill-process (get-buffer-process gud-comint-buffer)))
 ;;(setq gdb-many-windows t)
 
+;;调试快捷键
+;; (global-set-key [f5]     'my-gdb-test-debug-or-go)
+;; (global-set-key [S-f5]   'my-gdb-kill)
+;; (global-set-key [f6]     'gud-next)
+;; (global-set-key [C-f6]   'gud-until)
+;; (global-set-key [S-f6]   'gud-jump)
+;; (global-set-key [f7]     'gud-step)
+;; (global-set-key [f8]     'gud-finish)
+;; (global-set-key [f9]     'my-gdb-break-remove)
+;; (global-set-key "\C-cmw" 'my-gdb-break-watch)
+;; (global-set-key "\C-cmr" 'my-gdb-break-rwatch)
+;; (global-set-key "\C-cma" 'my-gdb-break-awatch)
 
+(global-set-key [(control =)]      'gud-print)
+(global-set-key [(control +)]      'gud-pstar)
+(global-set-key [(meta =)]         'my-gdb-print-dcptr)
+(global-set-key [(meta +)]         'my-gdb-pstar-dcptr)
+(global-set-key [(control meta +)] 'my-gdb-ptype)
+
+(global-set-key [(meta \,)] 'my-gdb-switch-window)
+
+(global-set-key "\C-xga"  'my-gdb-assembler-buffer)
+(global-set-key "\C-xgl"  'my-gdb-locals-buffer)
+(global-set-key "\C-xgm"  'my-gdb-memory-buffer)
+(global-set-key "\C-xgr"  'my-gdb-registers-buffer)
+(global-set-key "\C-xgt"  'my-gdb-threads-buffer)
+(global-set-key "\C-xgs"  'my-gdb-stack-buffer)
+(global-set-key "\C-xgb"  'my-gdb-breakpoints-buffer)
+(global-set-key "\C-xgi"  'my-gdb-inferior-io)
+(global-set-key "\C-xgp"  'my-gdb-partial-output-buffer)
+(global-set-key "\C-xgo"  'my-gdb-print-object)
+(global-set-key "\C-xgy"  'my-gdb-ptype)
+
+(global-set-key [(control meta shift mouse-1)]  'my-gdb-ptype)
+(global-set-key "\C-xgk"  'my-gdb-ptype-dcptr)
+(global-set-key [(meta shift mouse-3)]  'my-gdb-ptype-dcptr)
+(global-set-key "\C-xgw"  'gud-print)
+(global-set-key [(control shift mouse-1)]  'gud-print)
+(global-set-key "\C-xge"  'gud-pstar)
+(global-set-key [(control shift mouse-3)]  'gud-pstar)
+(global-set-key "\C-xgd"  'my-gdb-print-dcptr)
+(global-set-key [(control meta mouse-1)]  'my-gdb-print-dcptr)
+(global-set-key "\C-xgh"  'my-gdb-pstar-dcptr)
+(global-set-key [(control meta mouse-3)]  'my-gdb-pstar-dcptr)
+
+(global-set-key "\C-cbg"            'sbw-symbol-goto-on-cursor)
+(global-set-key "\C-cbt"            'sbw-symbol-type-goto-on-cursor)
+(global-set-key "\C-cbc"            'sbw-symbol-class-goto-on-cursor)
+(global-set-key "\C-cbd"            'sbw-find-function-define-or-declare)
+(global-set-key "\C-cbp"            'sbw-print-point)
+(global-set-key "\C-cbi"            'sbw-insert-function-define)
+(global-set-key "\C-cba"            'sbw-beginning-of-function)
+(global-set-key "\C-cbs"            'sbw-get-syntactic-list)
+(global-set-key "\C-cbq"            'sbw-get-dir-of-file)
+
+
+;; (global-set-key [(control \.)]     'my-insert-pointer-access)
+;; (global-set-key "\C-cr"             'my-revert-buffer)
+;; (global-set-key "\C-c\C-r"          'my-revert-buffer-all)
 
 
 (provide 'djzhang-mingw-gcc-settinigs)
