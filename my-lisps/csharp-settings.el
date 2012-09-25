@@ -90,6 +90,13 @@
 
 ;; =======================================================
 
+(setq compilation-error-regexp-alist 
+      (append  
+       (cons '("\\(.*\\)(\\([0-9]+\\),\\([0-9]+\\)): \\(error\\|warning\\) CS[0-9]+:" 1 2 3) ()) 
+       compilation-error-regexp-alist 
+       ) 
+) 
+
 
 (require 'flymake-for-csharp)
 
@@ -109,7 +116,7 @@
     (setq nant-help-paras (format "\"%s;%s\"" default-directory type))
     ;; python's para like this: ["path;type"]{"c:\xxx_fold;clean"}
     (setq nant-by-python (format "python \"%s\" %s" nant-help-py-path nant-help-paras))
-    (shell-command nant-by-python)
+    (compile nant-by-python)
     (other-window 3)
     (delete-other-windows)
     ;; (message nant-by-python)
