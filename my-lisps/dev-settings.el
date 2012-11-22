@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-25 14:00:35 Tuesday by djzhang>
+;; Time-stamp: <2012-11-22 13:21:03 Thursday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -188,7 +188,7 @@
 
 ;; ======================================================
 ;; csharp
-(require 'csharp-settings)
+;; (require 'csharp-settings)
 
 ;; nxhtml
 (require 'nxhtml-settings)
@@ -198,8 +198,11 @@
 ;; ======================================================
 
 ;; develop c++ by mingw and gcc
-(require 'djzhang-mingw-gcc-settinigs)
+;; (require 'djzhang-mingw-gcc-settinigs)
 
+
+;; develop android
+(require 'androd-settings)
 
 ;; 放在kde-emacs后面
 (require 'compile-settings)
