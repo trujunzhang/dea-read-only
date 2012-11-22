@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-11-22 13:22:56 Thursday by djzhang>
+;; Time-stamp: <2012-11-22 17:33:55 Thursday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -17,8 +17,60 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+;; url: {https://code.google.com/p/android-emacs-toolkit/}
 
+;;  For Windows users
+;; .1 Install emacs.
+;; .2 Install android-sdk-windows.
+;; .3 Install android-ndk-windows.
+;; .4 Install ant.
+;; .5 Add ant bin folder to PATH.
+(setenv "PATH" (concat "D:/Program Files/Android/ant/bin/;" (getenv "PATH")))
+ 
+;; .6 Install cygwin.
+;; .7 Set up cygwin for emacs.
+;; (setq cygwin-binary-directory "d:/cygwin/bin/")
+;; Do not use setup-cygwin.el currently.
+;; (require 'setup-cygwin)
+(when (eq system-type 'windows-nt)
+  (setenv "PATH" (concat "D:/cygwin/bin;" (getenv "PATH")))
+  (setq exec-path (cons "D:/cygwin/bin/" exec-path))
+  (require 'cygwin-mount)
+  (cygwin-mount-activate)
+  (add-hook 'comint-output-filter-functions
+            'shell-strip-ctrl-m nil t)
+  (add-hook 'comint-output-filter-functions
+            'comint-watch-for-password-prompt nil t)
+  (setq explicit-shell-file-name "bash.exe")
+  ;; For subprocesses invoked via the shell
+  ;; (e.g., "shell -c command")
+  (setq shell-file-name explicit-shell-file-name)
+  )
 
+;; .8 Set some defvar.
+;; Do not use '\' instead '/'
+(if (eq system-type 'windows-nt)
+    (progn (setq android-ndk-root-path "d:/Program Files/Android/android-ndk-r8c")
+           (setq android-sdk-root-path "d:/Program Files/Android/adt-bundle-windows-x86/sdk"))
+  ;; Ubuntu do not understanding '~' instead of 'home'
+  (progn (setq android-ndk-root-path "/home/share/program/android-ndk-r7-linux")
+         (setq android-sdk-root-path "/home/share/program/android-sdk-linux")))
+(setq android-default-package "com.zxy")
+
+  
+;; .9 Add android-emacs-toolkit to emacs.
+;; Do not add to list because of loading it automately.
+;; (add-to-list 'load-path "c:/android-emacs-toolkit")
+(require 'androidmk-mode)
+(add-hook 'androidmk-mode-hook
+          (lambda ()
+            (progn (local-set-key [M-f5] 'androidndk-build)
+                   (local-set-key [M-S-f5] 'androidndk-rebuild)
+                   (local-set-key [C-f5] 'androidsdk-build)
+                   (local-set-key [C-S-f5] 'androidsdk-rebuild)
+                     )))
+ 
+;; RUNNING EXAMPLES
 
 
 (message "  ")
