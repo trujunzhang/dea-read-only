@@ -158,17 +158,12 @@
 (global-set-key [(f12)] 'smart-nant-build)
 
 
-(message "csharp-settings.el.....................")
+
+
+
+
+(message "            csharp-settings.el.....................")
 
 (provide 'csharp-settings)
-
-
-
-
-
-
-
-
-
 
 

@@ -52,7 +52,7 @@
 ;; 改变emacs启动窗口大小的两种方法
 (setq default-frame-alist 
 '((left . 122)
-  (top . 22)
+  (top . 52)
   (height . 25)
   (width . 100)
   )

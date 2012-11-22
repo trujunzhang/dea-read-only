@@ -194,7 +194,7 @@
 (require 'nxhtml-settings)
 
 ;; pymacs
-(require 'pymacs-settings)
+;;(require 'pymacs-settings)
 ;; ======================================================
 
 ;; develop c++ by mingw and gcc
