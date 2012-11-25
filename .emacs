@@ -347,7 +347,7 @@
 (require 'ioccur)
 
 ;; 查询天气预报
-(require 'weather-settings)
+;; (require 'weather-settings)
 
 ;; 可以把光标由方块变成一个小长条
 (require 'bar-cursor)
@@ -455,14 +455,14 @@ If FULL is t, copy full file name."
 
 ;; 用weblogger写WordPress博客
 ;; http://emacser.com/weblogger.htm
-(require 'weblogger-settings)
+;; (require 'weblogger-settings)
 
 ;; 非常强大的文本画图的工具
-(require 'artist-settings)
+;; (require 'artist-settings)
 
 ;; google-maps-el – Emacs中的谷歌地图
 ;; http://emacser.com/emacs-google-map.htm
-(require 'google-maps-settings)
+;; (require 'google-maps-settings)
 
 ;; 关闭buffer的时候, 如果该buffer有对应的进程存在, 不提示, 烦
 (delq 'process-kill-buffer-query-function kill-buffer-query-functions)
@@ -480,9 +480,9 @@ If FULL is t, copy full file name."
 ;; (require 'desktop-settings)
 
 (message "  ")
-(message "*************************************")
-(message "        load finish sucessfully")
-(message "*************************************")
+(message "**************************************************")
+(message "        load finish sucessfully for android")
+(message "**************************************************")
 (message "  ")
 
 (sb-update)
