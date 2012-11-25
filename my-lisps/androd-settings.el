@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-11-22 17:33:55 Thursday by djzhang>
+;; Time-stamp: <2012-11-25 11:29:46 Sunday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -25,7 +25,7 @@
 ;; .3 Install android-ndk-windows.
 ;; .4 Install ant.
 ;; .5 Add ant bin folder to PATH.
-(setenv "PATH" (concat "D:/Program Files/Android/ant/bin/;" (getenv "PATH")))
+(setenv "PATH" (concat "D:/ProgramFiles/Android/ant/bin/;" (getenv "PATH")))
  
 ;; .6 Install cygwin.
 ;; .7 Set up cygwin for emacs.
@@ -50,8 +50,8 @@
 ;; .8 Set some defvar.
 ;; Do not use '\' instead '/'
 (if (eq system-type 'windows-nt)
-    (progn (setq android-ndk-root-path "d:/Program Files/Android/android-ndk-r8c")
-           (setq android-sdk-root-path "d:/Program Files/Android/adt-bundle-windows-x86/sdk"))
+    (progn (setq android-ndk-root-path "d:/ProgramFiles/Android/android-ndk-r8c")
+           (setq android-sdk-root-path "d:/ProgramFiles/Android/adt-bundle-windows-x86_64/sdk"))
   ;; Ubuntu do not understanding '~' instead of 'home'
   (progn (setq android-ndk-root-path "/home/share/program/android-ndk-r7-linux")
          (setq android-sdk-root-path "/home/share/program/android-sdk-linux")))
