@@ -61,7 +61,7 @@
 ;; 设置显示yasnippet的insert对话框的快捷键
 ;; (global-set-key "\C-i" 'yas/insert-snippet)
 
-(global-set-key [(f5)] 'yas/insert-snippet)
+;;(global-set-key [(f5)] 'yas/insert-snippet)
 
 ;; (global-set-key [(f7)] 'shell-)
 

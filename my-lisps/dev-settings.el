@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-12-02 20:52:00 Sunday by djzhang>
+;; Time-stamp: <2012-12-02 21:38:58 Sunday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -200,6 +200,8 @@
 ;; develop c++ by mingw and gcc
 ;; (require 'djzhang-mingw-gcc-settinigs)
 
+;; eproject-settings
+(require 'eproject-settings)
 ;; bookmark+-settings
 (require 'bookmark+-settings)
 
