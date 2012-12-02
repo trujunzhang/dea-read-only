@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-12-02 21:34:27 Sunday by djzhang>
+;; Time-stamp: <2012-12-02 21:51:39 Sunday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -18,6 +18,15 @@
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
+; load eproject
+;; (load-file "~/.emacs.d/eproject/eproject.el")
 (require 'eproject)
+
+; Disable automatic addition/removal of files from projects. Optional.
+(setq prj-autotracking nil)
+
+; anything + eproject integration
+(require 'anything-eproject)
+
 
 (provide 'eproject-settings)
