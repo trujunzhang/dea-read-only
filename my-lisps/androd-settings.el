@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-12-02 07:09:44 Sunday by djzhang>
+;; Time-stamp: <2012-12-03 08:26:15 Monday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -76,7 +76,8 @@
 (defun  run-android-projects()
   ""
   (interactive)
-  (w32-shell-execute "open"  "e:/oksvn/Android/wanghao/wanghaoandroid/push-vbox.exe")
+  ;; (w32-shell-execute "open"  "e:/oksvn/Android/wanghao/wanghaoandroid/push-vbox.exe")
+  (w32-shell-execute "open"  "d:/ProgramFiles/Android/adt-bundle-windows-x86_64/eclipse-mobile/workspace/gdsjboff/push-vbox.exe")
   )
 
 
