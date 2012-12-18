@@ -378,7 +378,7 @@
 (define-key global-map (kbd "C-x M-c") 'describe-char)
 
 ;; 启动Emacs的时候最大化Emacs
-;;(require 'maxframe-settings)
+(require 'maxframe-settings)
 
 (defun dos2unix ()
   "dos2unix on current buffer."

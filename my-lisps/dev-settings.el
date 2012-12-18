@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-12-02 21:38:58 Sunday by djzhang>
+;; Time-stamp: <2012-12-18 13:39:17 Tuesday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -207,6 +207,9 @@
 
 ;; develop android
 (require 'androd-settings)
+
+;; web-mode for html and css
+(require 'web-mode-settings)
 
 ;; 放在kde-emacs后面
 (require 'compile-settings)
