@@ -1,0 +1,1 @@
+"d:/TC_UP/PLUGINS/SoftwareFiles/gnuemacs/GNU Emacs for Windows v23.3/bin/emacs.exe"  -batch -f batch-byte-compile *.el
