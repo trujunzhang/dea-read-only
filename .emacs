@@ -308,11 +308,11 @@
 ;;(require 'w3m-settings)
 
 ;; 以另一用户编辑文件, 或者编辑远程主机文件
-(require 'tramp-settings)
+;;(require 'tramp-settings)
 
 ;; erc: Emacs中的IRC
 ;; ERC使用简介 emacser.com/erc.htm
-(require 'erc-settings)
+;; (require 'erc-settings)
 
 ;; spell check
 (setq-default ispell-program-name "aspell")
@@ -334,9 +334,9 @@
   (add-hook 'kill-emacs-hook 'install-.emacs))
 
 ;; 把pdf,ps,dvi文件转换为png格式, 在Emacs里面浏览
-(if is-after-emacs-23
-  (require 'doc-view)
-  (setq doc-view-conversion-refresh-interval 3))
+;; (if is-after-emacs-23
+  ;; (require 'doc-view)
+  ;; (setq doc-view-conversion-refresh-interval 3))
 
 ;; 在Emacs里面使用shell
 (require 'term-settings)
