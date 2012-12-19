@@ -39,8 +39,8 @@ REM Define here the correct paths to your (X)Emacs-executable and the
 REM required CEDET-package (use always FORWARD SLASHES in the paths!)
 
 
-set EMACS=C:/Programme/emacs-22.3/bin/emacs.exe
-set CEDET=../cedet
+set EMACS="d:/TC_UP/PLUGINS/SoftwareFiles/gnuemacs/GNU Emacs for Windows v23.3/bin/emacs.exe"
+set CEDET=../cedet-1.0
 
 REM Call "make" to byte-compile the ECB.
 REM If there are any warning messages during byte-compilation (normally
