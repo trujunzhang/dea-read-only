@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-09-22 12:31:33 Saturday by djzhang>
+;; Time-stamp: <2012-12-24 08:11:56 Monday by djzhang>
 
 
 ;; (require 'python-mode)
@@ -40,11 +40,11 @@
 ;;(add-to-list         'pymacs-load-path           YOUR-PYMACS-DIRECTORY")) 
 
 
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-exec "pymacs" nil t)
-(autoload 'pymacs-load "pymacs" nil t)
+;; (autoload 'pymacs-apply "pymacs")
+;; (autoload 'pymacs-call "pymacs")
+;; (autoload 'pymacs-eval "pymacs" nil t)
+;; (autoload 'pymacs-exec "pymacs" nil t)
+;; (autoload 'pymacs-load "pymacs" nil t)
 
 
 ;; 最后安装pycomplete
@@ -52,10 +52,10 @@
 ;; 下载：http://www.rwdev.eu/python/pycomplete/pycomplete.el
 
 ;; 将pycomplete.el文件放到插件目录下，将pycomplete.py文件放到Python安装目录的/site-packages/下，我的系统中的路径是/usr/local/lib/python2.6/site-packages/，然后在.emacs文件中加入如下代码：
- (autoload 'python-mode "python-mode" "Python Mode." t)
- (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
- (add-to-list 'interpreter-mode-alist '("python" . python-mode))
- (require 'pycomplete)
+ ;; (autoload 'python-mode "python-mode" "Python Mode." t)
+ ;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+ ;; (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+ ;; (require 'pycomplete)
 
 ;; 现在emacs就可以实现自动补全了，使用方法如下：
 

@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-12-19 12:34:08 Wednesday by djzhang>
+;; Time-stamp: <2012-12-24 08:11:32 Monday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -202,8 +202,12 @@
 
 ;; eproject-settings
 (require 'eproject-settings)
+
 ;; bookmark+-settings
 (require 'bookmark+-settings)
+
+;; develop for python
+(require 'pymacs-settings)
 
 ;; develop android
 (require 'androd-settings)
