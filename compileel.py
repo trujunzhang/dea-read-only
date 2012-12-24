@@ -1,4 +1,4 @@
-# Time-stamp: <2012-12-24 12:45:22 Monday by djzhang>
+# Time-stamp: <2012-12-24 13:02:42 Monday by djzhang>
 
 # @version 1.0
 # @author djzhang
@@ -45,23 +45,22 @@ def compile_el_in_subdir(base):
             
 def ExeByCmd(buildpath):
     emacs_exe="\"d:/TC_UP/PLUGINS/SoftwareFiles/gnuemacs/GNU Emacs for Windows v23.3/bin/emacs.exe\""
-    #p=subprocess.Popen("notepad.exe",shell=True,stdout=subprocess.PIPE,stdin=subprocess.PIPE,stderr=subprocess.PIPE)
+    p=subprocess.Popen("cmd.exe",shell=True,stdout=subprocess.PIPE,stdin=subprocess.PIPE,stderr=subprocess.PIPE)
     #p.stdin.write("ping www.baidu.com"+"\n")
     #$ emacs -batch -f batch-byte-compile  filename
     emacs_exe_el=emacs_exe+ "  -batch -f batch-byte-compile  \""+buildpath+"\""
     print(emacs_exe_el)
-    p=subprocess.Popen(emacs_exe_el,shell=True,stdout=subprocess.PIPE,stdin=subprocess.PIPE,stderr=subprocess.PIPE)
-    #p.stdin.write(emacs_exe_el)
+    p.stdin.write(emacs_exe_el)
     #p.stdin.write("dir")
-    #p.stdin.close()
+    p.stdin.close()
     p.wait()
     print (p.stdout.read())
     
 
 
 def console():
-    #compile_el_in_subdir(os.getcwd())
-    compile_el_in_subdir("z:\\123")
+    compile_el_in_subdir(os.getcwd())
+    #compile_el_in_subdir("z:\\123")
     
     
 
