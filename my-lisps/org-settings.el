@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/org-settings.el
-;; Time-stamp: <2010-11-03 17:06:00 Wednesday by taoshanwen>
+;; Time-stamp: <2012-12-28 14:48:19 Friday by djzhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -151,5 +151,10 @@
 
 (eval-after-load "org-colview"
   `(org-colview-settings))
+
+
+;; iimage mode 
+(autoload 'iimage-mode "iimage" "Support Inline image minor mode." t)
+(autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
 
 (provide 'org-settings)
